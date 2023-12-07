@@ -1,0 +1,14 @@
+version: "3.8"
+ 
+services:
+  cube:
+    image: test:latest
+    container_name: serverpdi
+    # restart: always
+    #   - secret.dev.env
+    ports:
+      - 1882:1882
+    environment:
+        BASE_DIR: /pdiserver
+    volumes:
+      - ./jobs:/pdiserver/jobs
