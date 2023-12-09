@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 jobs/*
 data-integration/
+data-integration
+chef.db
