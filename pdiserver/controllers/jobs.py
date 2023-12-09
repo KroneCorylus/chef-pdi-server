@@ -1,12 +1,13 @@
 import json
 import yaml
-from pdiserver.services.pdiservice import getCommand, executeCommand
+from pdiserver.services.pdiservice import getCommand, executeCommand, get_job_executions, get_job_execution_log
 from pdiserver.config import BASE_DIR
 from flask import Blueprint, request
-jobs_handlers = Blueprint('dbscan_handlers', __name__)
+
+jobs_blueprint = Blueprint('dbscan_handlers', __name__)
 
 
-@jobs_handlers.route("/")
+@jobs_blueprint.route("/")
 def get_jobs():
     with open(BASE_DIR + "/jobs/jobs.yaml", 'r') as stream:
         data_loaded = yaml.safe_load(stream)
@@ -15,7 +16,7 @@ def get_jobs():
     return json.dumps(jobs)
 
 
-@jobs_handlers.route("/<path:job>")
+@jobs_blueprint.route("/<path:job>")
 def define_job(job):
     with open(BASE_DIR + "/jobs/jobs.yaml", 'r') as stream:
         data_loaded = yaml.safe_load(stream)
@@ -23,13 +24,24 @@ def define_job(job):
     return result
 
 
-@jobs_handlers.route("/<path:job>/execute")
-def execute_job(job):
-    argsDict = request.args.to_dict()
+@jobs_blueprint.route("/<path:job_name>/executions", methods=['GET'])
+def get_executions(job_name):
+    return json.dumps(get_job_executions(job_name))
+
+
+@jobs_blueprint.route("/<path:job_name>/executions/logs/<path:id>", methods=['GET'])
+def get_execution_log(job_name, id):
+    return get_job_execution_log(job_name, id)
+
+
+@jobs_blueprint.route("/<path:job_name>/executions", methods=['POST'])
+def execute_job(job_name):
+    print(request.get_json(silent=True))
+    argsDict = request.get_json(silent=True)
     with open(BASE_DIR + "/jobs/jobs.yaml", 'r') as stream:
         jobsconfig = yaml.safe_load(stream)
-    jobParameters = jobsconfig["jobs"][job]["default_parameters"]
+    job = jobsconfig["jobs"][job_name]
+    jobParameters = job["default_parameters"]
     jobParameters.update(argsDict)
-    jobPath = jobsconfig["jobs"][job]["path"]
-    command = getCommand(jobPath, jobParameters)
-    return executeCommand(command)
+    command = getCommand(job, jobParameters)
+    return executeCommand(job_name, command)
