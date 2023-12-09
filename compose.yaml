@@ -2,8 +2,8 @@ version: "3.8"
  
 services:
   cube:
-    image: test:latest
-    container_name: serverpdi
+    image: chef:latest
+    container_name: chef
     # restart: always
     #   - secret.dev.env
     ports:
