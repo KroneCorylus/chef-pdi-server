@@ -1,6 +1,6 @@
 import json
 import yaml
-from pdiserver.services.pdiservice import getCommand, executeCommand, get_job_executions, get_job_execution_log
+from pdiserver.services.pdiservice import getCommand, executeCommand, get_job_executions, get_job_execution_log, get_job_parameters
 from pdiserver.config import BASE_DIR
 from flask import Blueprint, request
 
@@ -20,7 +20,11 @@ def get_jobs():
 def define_job(job):
     with open(BASE_DIR + "/jobs/jobs.yaml", 'r') as stream:
         data_loaded = yaml.safe_load(stream)
-    result = data_loaded["jobs"][job]
+    result: dict = data_loaded["jobs"][job]
+    result["default_parameter_overrides"] = result.pop(
+        "default_parameters", {})
+    params = get_job_parameters(result)
+    result["available_parameters"] = params
     return result
 
 
