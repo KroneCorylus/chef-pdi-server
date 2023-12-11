@@ -1,30 +1,22 @@
 import json
-import yaml
-from pdiserver.config import BASE_DIR
 from flask import Blueprint
-
+from pdiserver import services
 secuences_blueprint = Blueprint('secuences', __name__)
 
 
 @secuences_blueprint.route("/")
 def get_secuences():
-    with open(BASE_DIR + "/jobs/secuences.yaml", 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-    secuences = list(data_loaded["secuences"])
-    print(secuences)
+    secuences = list(services.yaml.get_secuences())
     return json.dumps(secuences)
 
 
 @secuences_blueprint.route("/<path:secuence>")
 def define_secuence(secuence):
-    with open(BASE_DIR + "/jobs/secuences.yaml", 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-    return data_loaded
+    return json.dumps(services.yaml.get_secuence(secuence))
 
 
 @secuences_blueprint.route("/<path:secuence_name>/executions", methods=['POST'])
 def execute_secuence(secuence_name):
-    with open(BASE_DIR + "/jobs/secuences.yaml", 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-    secuence = data_loaded["secuences"][secuence_name]
+    secuence = json.dumps(services.yaml.get_secuence(secuence_name))
+
     return secuence
