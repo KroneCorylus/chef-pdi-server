@@ -4,7 +4,7 @@ from pdiserver.services.pdiservice import getCommand, executeCommand, get_job_ex
 from pdiserver.config import BASE_DIR
 from flask import Blueprint, request
 
-jobs_blueprint = Blueprint('dbscan_handlers', __name__)
+jobs_blueprint = Blueprint('jobs', __name__)
 
 
 @jobs_blueprint.route("/")
