@@ -7,10 +7,9 @@ KITCHEN = BASE_DIR + "/data-integration/kitchen.sh"
 PAN = BASE_DIR + "/data-integration/pan.sh"
 
 
-def getCommand(job: dict, parameters: dict) -> list[str]:
+def get_command(job: dict, parameters: dict) -> list[str]:
     jobPath: str = job["path"]
     logLevel: str = job["level"] if job["level"] is not None else 'Basic'
-    print(job["level"], logLevel)
     command: list[str] = [KITCHEN, "-file:" + jobPath, "-level:" + logLevel]
     if parameters is not None:
         command = command + getParameterString(parameters)
@@ -26,7 +25,12 @@ def capture_output(process: subprocess.Popen, rowid: int):
         rowid, stdout, stderr, process.returncode)
 
 
-def executeCommand(job_name: str, command: list[str]) -> str:
+def execute(job_name: str, job: dict, parameters: dict):
+    command = get_command(job, parameters)
+    return execute_command(job_name, command)
+
+
+def execute_command(job_name: str, command: list[str]) -> str:
     process: subprocess.Popen = subprocess.Popen(command,
                                                  cwd=BASE_DIR + "/jobs",
                                                  stdout=subprocess.PIPE,

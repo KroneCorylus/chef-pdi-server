@@ -36,3 +36,11 @@ def get_executions(name):
 
 def get_execution(name, rowid):
     return providers.job.get_execution(name, rowid)
+
+
+def execute(name, override_parameters):
+    job = services.yaml.get_job(name)
+    jobParameters = job["default_parameters"]
+    if override_parameters is not None:
+        jobParameters.update(override_parameters)
+    return services.pdi.execute(name, job, jobParameters)

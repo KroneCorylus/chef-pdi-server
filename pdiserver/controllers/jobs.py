@@ -32,10 +32,4 @@ def get_execution_log(job_name, id):
 def execute_job(job_name):
     print(request.get_json(silent=True))
     argsDict = request.get_json(silent=True)
-    with open(BASE_DIR + "/jobs/jobs.yaml", 'r') as stream:
-        jobsconfig = yaml.safe_load(stream)
-    job = jobsconfig["jobs"][job_name]
-    jobParameters = job["default_parameters"]
-    jobParameters.update(argsDict)
-    command = services.pdi.getCommand(job, jobParameters)
-    return services.pdi.executeCommand(job_name, command)
+    return services.job.execute(job_name, argsDict)
