@@ -1,7 +1,7 @@
 import json
 import yaml
 from pdiserver import services
-from pdiserver.services.pdiservice import getCommand, executeCommand, get_job_executions, get_job_execution_log
+from pdiserver.services.pdi import getCommand, executeCommand, get_job_executions, get_job_execution_log
 from pdiserver.config import BASE_DIR
 from flask import Blueprint, request
 
@@ -21,12 +21,12 @@ def define_job(job):
 
 @jobs_blueprint.route("/<path:job_name>/executions", methods=['GET'])
 def get_executions(job_name):
-    return json.dumps(get_job_executions(job_name))
+    return json.dumps(services.pdi.get_job_executions(job_name))
 
 
 @jobs_blueprint.route("/<path:job_name>/executions/<path:id>", methods=['GET'])
 def get_execution_log(job_name, id):
-    return get_job_execution_log(job_name, id)
+    return services.pdi.get_job_execution_log(job_name, id)
 
 
 @jobs_blueprint.route("/<path:job_name>/executions", methods=['POST'])
@@ -38,5 +38,5 @@ def execute_job(job_name):
     job = jobsconfig["jobs"][job_name]
     jobParameters = job["default_parameters"]
     jobParameters.update(argsDict)
-    command = getCommand(job, jobParameters)
-    return executeCommand(job_name, command)
+    command = services.pdi.getCommand(job, jobParameters)
+    return services.pdi.executeCommand(job_name, command)

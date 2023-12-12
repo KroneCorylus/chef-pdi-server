@@ -1,1 +1,1 @@
-from pdiserver.services import yaml, pdiservice, job
+from pdiserver.services import yaml, pdi, job
