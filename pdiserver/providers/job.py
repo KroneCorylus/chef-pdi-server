@@ -37,7 +37,7 @@ def update_execution_result(rowid: int, stdout: str, stderr: str, return_code: i
     connection.close()
 
 
-def get_job_executions(job_name):
+def get_executions(job_name):
     conn = sqlite3.connect('chef.db')
 
     cursor = conn.cursor()
@@ -63,7 +63,7 @@ def get_job_executions(job_name):
     return result_dict
 
 
-def get_execution_log(job_name, rowid):
+def get_execution(job_name, rowid):
     conn = sqlite3.connect('chef.db')
 
     cursor = conn.cursor()

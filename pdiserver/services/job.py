@@ -1,4 +1,4 @@
-from pdiserver import services
+from pdiserver import services, providers
 from pdiserver.config import BASE_DIR
 import os
 import xml.etree.ElementTree as ET
@@ -28,3 +28,11 @@ def job_available_parameters(job_path: str) -> dict:
             'description': param.findtext("description")
         })
     return result
+
+
+def get_executions(name):
+    return providers.job.get_executions(name)
+
+
+def get_execution(name, rowid):
+    return providers.job.get_execution(name, rowid)

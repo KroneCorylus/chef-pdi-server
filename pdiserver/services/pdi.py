@@ -1,9 +1,7 @@
 from pdiserver.config import BASE_DIR
 import subprocess
 import threading
-from pdiserver.providers.execution import insert_execution, update_execution_result, get_job_executions, get_execution_log
-from pdiserver.providers import execution
-import os
+from pdiserver import providers
 
 KITCHEN = BASE_DIR + "/data-integration/kitchen.sh"
 PAN = BASE_DIR + "/data-integration/pan.sh"
@@ -24,7 +22,8 @@ def capture_output(process: subprocess.Popen, rowid: int):
     print("enter capture")
     stdout, stderr = process.communicate()
     print("finish capture")
-    update_execution_result(rowid, stdout, stderr, process.returncode)
+    providers.job.update_execution_result(
+        rowid, stdout, stderr, process.returncode)
 
 
 def executeCommand(job_name: str, command: list[str]) -> str:
@@ -33,18 +32,10 @@ def executeCommand(job_name: str, command: list[str]) -> str:
                                                  stdout=subprocess.PIPE,
                                                  stderr=subprocess.PIPE,
                                                  text=True)
-    rowid: int = execution.insert_execution(job_name, process.pid)
+    rowid: int = providers.job.insert_execution(job_name, process.pid)
     thread = threading.Thread(target=capture_output, args=(process, rowid))
     thread.start()
     return str(process.pid) + ":" + str(rowid)
-
-
-def get_executions(job_name):
-    return get_job_executions(job_name)
-
-
-def get_job_execution_log(job_name, rowid):
-    return get_execution_log(job_name, rowid)
 
 
 def getParameterString(parameters: dict) -> list[str]:
