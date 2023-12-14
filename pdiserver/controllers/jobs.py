@@ -1,7 +1,5 @@
 import json
-import yaml
 from pdiserver import services
-from pdiserver.config import BASE_DIR
 from flask import Blueprint, request
 
 jobs_blueprint = Blueprint('jobs', __name__)
