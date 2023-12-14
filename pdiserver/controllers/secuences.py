@@ -17,6 +17,4 @@ def define_secuence(secuence):
 
 @secuences_blueprint.route("/<path:secuence_name>/executions", methods=['POST'])
 def execute_secuence(secuence_name):
-    secuence = json.dumps(services.yaml.get_secuence(secuence_name))
-
-    return secuence
+    return services.secuence.execute(secuence_name)
