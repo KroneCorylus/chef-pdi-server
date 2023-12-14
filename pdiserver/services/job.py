@@ -38,9 +38,9 @@ def get_execution(name, rowid):
     return providers.job.get_execution(name, rowid)
 
 
-def execute(name, override_parameters):
+def execute(name: str, override_parameters: dict, id_secuence_execution: int = None):
     job = services.yaml.get_job(name)
     jobParameters = job["default_parameters"]
     if override_parameters is not None:
         jobParameters.update(override_parameters)
-    return services.pdi.execute(name, job, jobParameters)
+    return services.pdi.execute(name, job, jobParameters, id_secuence_execution)
