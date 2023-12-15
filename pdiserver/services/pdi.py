@@ -31,7 +31,8 @@ def execute_command(job_name: str, command: list[str], id_secuence_execution: in
                                                  stdout=subprocess.PIPE,
                                                  stderr=subprocess.PIPE,
                                                  text=True)
-    rowid: int = providers.job.insert_execution(job_name, process.pid)
+    rowid: int = providers.job.insert_execution(
+        job_name, process.pid, id_secuence_execution)
 
     if id_secuence_execution is None:
         thread = threading.Thread(target=capture_output, args=(process, rowid))

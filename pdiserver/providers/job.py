@@ -2,12 +2,12 @@ import sqlite3
 from datetime import datetime, timezone
 
 
-def insert_execution(job_name: str, pid: int) -> int:
+def insert_execution(job_name: str, pid: int, id_secuence_execution: int) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
-        "INSERT INTO execution (job_name,pid,init_date) VALUES (?,?,?)",
-        (job_name, pid, datetime.now(timezone.utc))
+        "INSERT INTO job_execution (job_name,pid,init_date, id_secuence_execution) VALUES (?,?,?,?)",
+        (job_name, pid, datetime.now(timezone.utc), id_secuence_execution)
     )
     rowid = cursor.lastrowid
     connection.commit()
@@ -22,7 +22,7 @@ def update_execution_result(rowid: int, stdout: str, stderr: str, return_code: i
     cursor = connection.cursor()
     cursor.execute("""
         UPDATE
-            execution
+            job_execution
         SET
             stdout=?,
             stderr=?,
@@ -43,7 +43,7 @@ def get_executions(job_name):
     cursor = conn.cursor()
 
     cursor.execute(
-        'SELECT rowid, pid, return_code, init_date, end_date FROM execution WHERE job_name = ?', (job_name,))
+        'SELECT rowid, pid, return_code, init_date, end_date, id_secuence_execution FROM job_execution WHERE job_name = ?', (job_name,))
 
     rows = cursor.fetchall()
 
@@ -58,6 +58,7 @@ def get_executions(job_name):
             'return_code': row[2],
             'init_date': row[3],
             'end_date': row[4],
+            'id_secuence_execution': row[5]
         })
 
     return result_dict
