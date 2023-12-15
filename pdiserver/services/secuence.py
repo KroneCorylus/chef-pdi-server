@@ -5,9 +5,9 @@ import threading
 
 def execute(name: str) -> str:
     secuence = services.yaml.get_secuence(name)
-    providers.secuence.insert(name)
+    id_secuence_execution = providers.secuence.insert(name)
     thread = threading.Thread(
-        target=execute_jobs_in_secuence, args=(secuence, 1))
+        target=execute_jobs_in_secuence, args=(secuence, id_secuence_execution))
     thread.start()
     return json.dumps(secuence)
 
