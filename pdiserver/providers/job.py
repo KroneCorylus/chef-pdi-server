@@ -70,7 +70,7 @@ def get_execution(job_name, rowid):
     cursor = conn.cursor()
 
     cursor.execute(
-        'SELECT stdout FROM execution WHERE job_name = ? AND rowid = ?', (job_name, rowid))
+        'SELECT stdout FROM job_execution WHERE job_name = ? AND rowid = ?', (job_name, rowid))
 
     result = cursor.fetchone()
 
