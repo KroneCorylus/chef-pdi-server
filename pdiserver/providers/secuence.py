@@ -21,7 +21,7 @@ def update_end_date(rowid: str) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
-        "UPDATE secuence_execution SET (end_date) VALUES (?,?) WHERE rowid = ?",
+        "UPDATE secuence_execution SET end_date = ? WHERE rowid = ?",
         (datetime.now(timezone.utc), rowid)
     )
     connection.commit()
