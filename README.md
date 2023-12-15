@@ -1,16 +1,17 @@
 
-# Chef-PDI-server
+<h1>Chef-PDI-server</h1> 
 
 Chef is simple web server that provides a HTTP API for running Pentaho Data Integration (a.k.a Kettle) Jobs.
 
 ------------
+<p align="center">***NOT READY FOR PRODUCTION*** </p>
 
-***NOT READY FOR PRODUCTION***
 
 ------------
 
 
-### Features
+<h3>Features</h3> 
+
 - Simple installation via Docker Image.
 - Run jobs on demand via HTTP request.
 - Set default parameters or pass them as parameters on the request (overwrite default ones).
@@ -18,68 +19,75 @@ Chef is simple web server that provides a HTTP API for running Pentaho Data Inte
 - Access logs from finish executions.
 - API end point to get available parameters of a job.
 
-### Planed Features
+<h3>Planed Features</h3>
+
 - Authorization with JWT.
 - Abort Jobs (by killing pdi process).
 
 
-**Table of Contents**
+<h2>Installation</h2>
+<h4>Clone repository</h4>
 
-[TOC]
-
-
-##Installation
-####Clone repository
-```
+```shell
 $ git clone git@github.com:KroneCorylus/chef-pdi-server.git
 ```
-####Build image
+
+<h4>Build image</h4>
+
 Inside the cloned directory run:
-```
+
+```shell
 $ docker build .
 ```
-####Start with docker compose
-```
+
+<h4>Start with docker compose</h4>
+
+```shell
 $ docker compose up
 ```
 
-##Configuration
-###Jobs
+<h2>Configuration</h2>
+
+<h3>Jobs</h3>
 Using the docker compose to start the image you should have a volume map to a directory inside your cloned repository called jobs (you can change this inside the compose.yaml file) where you will put your jobs (.kjb files).
 
 Inside that folder you can declare your jobs using a jobs.yaml file with this format:
 ```yaml
 jobs:
-	unique_job_name:
-		level: Debug 
-		path: test/job1.kjb
-		default_parameters:
-			param1: 'test'
-			param2: 'test'
-			param3: 'test'
-	another_job_name:
-		level: Minimal 
-		path: job2.kjb
-		default_parameters:
-			param1: 'test'
-			param2: 'test'
+  unique_job_name:
+    level: Debug 
+    path: test/job1.kjb
+    default_parameters:
+      param1: 'test'
+      param2: 'test'
+      param3: 'test'
+  another_job_name:
+    level: Minimal 
+    path: job2.kjb
+    default_parameters:
+      param1: 'test'
+      param2: 'test'
 ```
-###Secuences
+<h3>Secuences</h3>
 Secuences are a list of jobs you want to run consecutively. You can declare what jobs are part of a secuence declaring them in secuences.yaml using the job name declared on jobs.yaml
+
 ```yaml
 secuences:
-	unique_secuence_name:
-		- job: 'unique_job_name'
-			parameter_overwrites:
-				param1: 'test1'
-				param3: 'test1'
-		- job: 'another_job_name'
-			parameter_overwrites:
- 				param2: 'test2'
+  unique_secuence_name:
+    - job: 'unique_job_name'
+      parameter_overwrites:
+        param1: 'test1'
+        param3: 'test1'
+    - job: 'another_job_name'
+      parameter_overwrites:
+        param2: 'test2'
 ```
 
-##API Usage
-###Jobs
+
+<h2>API Usage</h2>
+
+<h3>Jobs</h3>
+
 | End point | Method | Description                    |
 | ------------- | ----------------------------------------------- | ----- |
 | `/jobs`      | List all jobs available.       | GET |
@@ -87,7 +95,9 @@ secuences:
 | `/jobs/<unique_job_name>/executions`   | List all executions of a job     | GET |
 | `/jobs/<unique_job_name>/executions`   | Execute a job     | POST |
 | `/jobs/<unique_job_name>/executions/<id>`   | Get log from execution     | GET |
-###Secuences
+
+<h3>Secuences</h3>
+
 | End point | Method | Description                    |
 | ------------- | ----------------------------------------------- | ----- |
 | `/secuences`   | List all secuences available     | GET |
