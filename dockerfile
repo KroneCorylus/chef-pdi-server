@@ -28,5 +28,8 @@ ENV FILTER_GTK_WARNINGS=true
 ENV SKIP_WEBKITGTK_CHECK=true
 
 WORKDIR /srv/pdiserver
+
+RUN sqlite3 chef.db < create_tables.sql 
+
 EXPOSE 1882
 CMD flask run --host 0.0.0.0 --port 1882
