@@ -38,9 +38,9 @@ def update_execution_result(rowid: int, stdout: str, stderr: str, return_code: i
 
 
 def get_executions(job_name):
-    conn = sqlite3.connect('chef.db')
+    connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
 
-    cursor = conn.cursor()
+    cursor = connection.cursor()
 
     cursor.execute(
         'SELECT rowid, pid, return_code, init_date, end_date, id_secuence_execution FROM job_execution WHERE job_name = ?', (job_name,))
@@ -48,7 +48,7 @@ def get_executions(job_name):
     rows = cursor.fetchall()
 
     cursor.close()
-    conn.close()
+    connection.close()
 
     result_dict = []
     for row in rows:
@@ -65,9 +65,9 @@ def get_executions(job_name):
 
 
 def get_execution(job_name, rowid):
-    conn = sqlite3.connect('chef.db')
+    connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
 
-    cursor = conn.cursor()
+    cursor = connection.cursor()
 
     cursor.execute(
         'SELECT stdout FROM job_execution WHERE job_name = ? AND rowid = ?', (job_name, rowid))
@@ -75,6 +75,6 @@ def get_execution(job_name, rowid):
     result = cursor.fetchone()
 
     cursor.close()
-    conn.close()
+    connection.close()
 
     return result[0] if result else "log no encontrado"
