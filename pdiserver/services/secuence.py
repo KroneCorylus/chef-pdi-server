@@ -1,4 +1,4 @@
-from pdiserver import services, providers
+from .. import services, providers
 import json
 import threading
 

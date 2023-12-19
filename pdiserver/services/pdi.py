@@ -1,7 +1,7 @@
-from pdiserver.config import BASE_DIR
+from ..config import BASE_DIR
 import subprocess
 import threading
-from pdiserver import providers
+from .. import providers
 
 KITCHEN = BASE_DIR + "/data-integration/kitchen.sh"
 PAN = BASE_DIR + "/data-integration/pan.sh"

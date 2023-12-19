@@ -1,10 +1,10 @@
-from pdiserver.config import BASE_DIR
-import yaml
+from ..config import BASE_DIR
+import yaml as __yaml
 
 
 def load_yaml(path: str) -> dict:
     with open(BASE_DIR + path, 'r') as stream:
-        return yaml.safe_load(stream)
+        return __yaml.safe_load(stream)
 
 
 def get_jobs() -> dict:

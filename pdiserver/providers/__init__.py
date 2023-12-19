@@ -1,1 +1,1 @@
-from pdiserver.providers import job, secuence
+from . import job, secuence

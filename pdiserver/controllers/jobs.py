@@ -1,5 +1,5 @@
 import json
-from pdiserver import services
+from .. import services
 from flask import Blueprint, request
 
 jobs_blueprint = Blueprint('jobs', __name__)

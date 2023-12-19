@@ -1,6 +1,6 @@
 import json
 from flask import Blueprint
-from pdiserver import services
+from .. import services
 secuences_blueprint = Blueprint('secuences', __name__)
 
 

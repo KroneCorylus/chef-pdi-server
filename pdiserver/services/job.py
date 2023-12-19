@@ -1,5 +1,5 @@
-from pdiserver import services, providers
-from pdiserver.config import BASE_DIR
+from .. import services, providers
+from ..config import BASE_DIR
 import os
 import xml.etree.ElementTree as ET
 
