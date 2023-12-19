@@ -10,14 +10,14 @@ def insert(secuence_name: str) -> int:
         "INSERT INTO secuence_execution (secuence_name,init_date) VALUES (?,?)",
         (secuence_name, datetime.now(timezone.utc))
     )
-    rowid = cursor.lastrowid
+    rowid = cursor.lastrowid or -1
     connection.commit()
     cursor.close()
     connection.close()
     return rowid
 
 
-def update_end_date(rowid: str) -> int:
+def update_end_date(rowid: int) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
