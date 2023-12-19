@@ -1,14 +1,14 @@
 version: "3.8"
  
 services:
-  cube:
-    image: chef:latest
+  chef:
+    build: .
     container_name: chef
     # restart: always
     #   - secret.dev.env
     ports:
       - 1882:1882
     environment:
-        BASE_DIR: /pdiserver
+        BASE_DIR: /home/pdi
     volumes:
-      - ./jobs:/pdiserver/jobs
+      - ./jobs:/home/pdi/jobs

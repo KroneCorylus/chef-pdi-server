@@ -1,5 +1,5 @@
-from pdiserver.controllers.jobs import jobs_blueprint
-from pdiserver.controllers.secuences import secuences_blueprint
+from .controllers.jobs import jobs_blueprint
+from .controllers.secuences import secuences_blueprint
 from flask import Flask
 
 
