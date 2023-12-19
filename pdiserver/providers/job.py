@@ -9,7 +9,7 @@ def insert_execution(job_name: str, pid: int, id_secuence_execution: int) -> int
         "INSERT INTO job_execution (job_name,pid,init_date, id_secuence_execution) VALUES (?,?,?,?)",
         (job_name, pid, datetime.now(timezone.utc), id_secuence_execution)
     )
-    rowid = cursor.lastrowid
+    rowid = cursor.lastrowid or -1
     connection.commit()
     cursor.close()
     connection.close()
@@ -32,6 +32,23 @@ def update_execution_result(rowid: int, stdout: str, stderr: str, return_code: i
             rowid=?
         """,
                    (stdout, stderr, return_code, end_ts, rowid))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def update_log(rowid: int, stdout: str):
+    connection = sqlite3.connect('chef.db')
+    cursor = connection.cursor()
+    cursor.execute("""
+        UPDATE
+            job_execution
+        SET
+            stdout=COALESCE(stdout, '') || ?
+        WHERE
+            rowid=?
+        """,
+                   (stdout, rowid))
     connection.commit()
     cursor.close()
     connection.close()
