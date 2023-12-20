@@ -28,3 +28,34 @@ def update_end_date(rowid: int) -> int:
     cursor.close()
     connection.close()
     return rowid
+
+
+def get_executions(secuence_name: str) -> list[dict]:
+    connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
+    cursor = connection.cursor()
+    cursor.execute(
+        '''
+        SELECT 
+            rowid,
+            secuence_name,
+            init_date,
+            end_date
+        FROM
+            secuence_execution
+        WHERE 
+            secuence_name = ?
+        ''',
+        (secuence_name,))
+    rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    result_dict = []
+    for row in rows:
+        result_dict.append({
+            'id': row[0],
+            'secuence_name': row[1],
+            'init_date': row[2],
+            'end_date': row[3]
+        })
+
+    return result_dict

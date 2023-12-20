@@ -81,6 +81,43 @@ def get_executions(job_name):
     return result_dict
 
 
+def get_executions_by_secuence_execution(id_secuence_execution: int) -> list[dict]:
+    connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        '''
+        SELECT 
+            rowid, 
+            pid, 
+            return_code, 
+            init_date, 
+            end_date, 
+            id_secuence_execution 
+        FROM 
+            job_execution 
+        WHERE 
+            id_secuence_execution = ?
+        ''',
+        (id_secuence_execution,)
+    )
+    rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    result_dict = []
+    for row in rows:
+        result_dict.append({
+            'id': row[0],
+            'pid': row[1],
+            'return_code': row[2],
+            'init_date': row[3],
+            'end_date': row[4],
+            'id_secuence_execution': row[5]
+        })
+    return result_dict
+
+
 def get_execution(job_name, rowid):
     connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
 

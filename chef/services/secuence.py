@@ -19,3 +19,7 @@ def execute_jobs_in_secuence(secuence: dict, id_secuence_execution: int):
         services.job.execute(
             job_name, parameter_overwrites, id_secuence_execution)
     providers.secuence.update_end_date(id_secuence_execution)
+
+
+def get_executions(name: str) -> list[dict]:
+    return providers.secuence.get_executions(name)

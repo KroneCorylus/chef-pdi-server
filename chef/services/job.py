@@ -30,8 +30,12 @@ def job_available_parameters(job_path: str) -> dict:
     return result
 
 
-def get_executions(name):
+def get_executions(name) -> list[dict]:
     return providers.job.get_executions(name)
+
+
+def get_executions_by_secuence_id(id_secuence_execution: int) -> list[dict]:
+    return providers.job.get_executions_by_secuence_execution(id_secuence_execution)
 
 
 def get_execution(name, rowid):
