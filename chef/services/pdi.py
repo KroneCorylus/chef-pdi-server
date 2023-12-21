@@ -32,7 +32,7 @@ def execute_command(job_name: str, command: list[str], id_secuence_execution: in
                                                  stdout=subprocess.PIPE,
                                                  stderr=subprocess.PIPE,
                                                  text=True,
-                                                 bufsize=1,
+                                                 bufsize=0,
                                                  universal_newlines=True)
     rowid: int = providers.job.insert_execution(
         job_name, process.pid, id_secuence_execution)
