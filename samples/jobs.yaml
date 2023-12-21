@@ -1,0 +1,17 @@
+jobs:
+  sample_job1:
+    level: Minimal # PDI Debug level(Minimal/Debug/Nothing/Error/Detailed)
+    path: sample_job/sample_job.kjb # Path relative to the jobs volume.
+    default_parameters:  # This parameters will autoset before running the job overwriting the defaults declared inside the .kjb file
+      param1: 'this text is overriding job default parameter value'
+      param2: 'this values is not going to show on DEFINE'
+      filepath: '/home/krone/Development/chef-pdi-server/files'
+      #filepath: '/home/pdi/files/sample_job_output'
+    hidden_parameters: # This is a list of parameter that you dont want to show when describing a JOB (useful for passwords, tokens, etc)
+      - 'param3'
+  sample_job2:
+    path: sample_job_2.kjb
+    default_parameters:
+      param1: 'this text is overriding job default parameter value.'
+      sleep: 10
+      trigger: 'chef'
