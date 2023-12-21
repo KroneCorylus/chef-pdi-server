@@ -40,6 +40,7 @@ def execute_command(job_name: str, command: list[str], id_secuence_execution: in
     if id_secuence_execution is None:
         thread = threading.Thread(target=capture_output, args=(process, rowid))
         thread.start()
+        providers.job.remove_old()
     else:
         capture_output(process, rowid)
     return {
@@ -60,8 +61,6 @@ def capture_output(process: subprocess.Popen, rowid: int):
             real_time_output.append(line)
     # Wait for the process to complete and capture completed stdout and stderr
     stdout, stderr = process.communicate()
-    # stdout = process.stdout.read()
-    # stderr = process.stderr.read()
     stdout = ''.join(real_time_output) + stdout
 
     print("FINISH: " + str(rowid))
