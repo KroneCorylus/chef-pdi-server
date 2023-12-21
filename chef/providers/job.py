@@ -1,6 +1,8 @@
 import sqlite3
 from datetime import datetime, timezone
 
+from ..config import LOG_RETENTION
+
 
 def insert_execution(job_name: str,
                      pid: int,
@@ -151,3 +153,20 @@ def get_execution(job_name, rowid):
     connection.close()
 
     return result[0] if result else "log no encontrado"
+
+
+def remove_old():
+    connection = sqlite3.connect('chef.db')
+    cursor = connection.cursor()
+    cursor.execute(
+        """
+        DELETE FROM
+            job_execution
+        WHERE
+            init_date = ?
+        """,
+        (LOG_RETENTION,)
+    )
+    connection.commit()
+    cursor.close()
+    connection.close()

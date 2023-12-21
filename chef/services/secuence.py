@@ -6,6 +6,7 @@ import threading
 def execute(name: str) -> str:
     secuence = services.yaml.get_secuence(name)
     id_secuence_execution = providers.secuence.insert(name)
+    providers.secuence.remove_old()
     thread = threading.Thread(
         target=execute_jobs_in_secuence, args=(secuence, id_secuence_execution))
     thread.start()

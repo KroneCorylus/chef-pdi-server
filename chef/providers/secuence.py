@@ -2,12 +2,18 @@
 import sqlite3
 from datetime import datetime, timezone
 
+from ..config import LOG_RETENTION
+
 
 def insert(secuence_name: str) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
-        "INSERT INTO secuence_execution (secuence_name,init_date) VALUES (?,?)",
+        """
+        INSERT INTO
+            secuence_execution (secuence_name,init_date)
+        VALUES (?,?)
+        """,
         (secuence_name, datetime.now(timezone.utc))
     )
     rowid = cursor.lastrowid or -1
@@ -35,14 +41,14 @@ def get_executions(secuence_name: str) -> list[dict]:
     cursor = connection.cursor()
     cursor.execute(
         '''
-        SELECT 
+        SELECT
             rowid,
             secuence_name,
             init_date,
             end_date
         FROM
             secuence_execution
-        WHERE 
+        WHERE
             secuence_name = ?
         ''',
         (secuence_name,))
@@ -59,3 +65,20 @@ def get_executions(secuence_name: str) -> list[dict]:
         })
 
     return result_dict
+
+
+def remove_old():
+    connection = sqlite3.connect('chef.db')
+    cursor = connection.cursor()
+    cursor.execute(
+        """
+        DELETE FROM
+            secuence_execution
+        WHERE
+            init_date = ?
+        """,
+        (LOG_RETENTION,)
+    )
+    connection.commit()
+    cursor.close()
+    connection.close()
