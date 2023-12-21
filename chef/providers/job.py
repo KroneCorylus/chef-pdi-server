@@ -2,11 +2,19 @@ import sqlite3
 from datetime import datetime, timezone
 
 
-def insert_execution(job_name: str, pid: int, id_secuence_execution: int | None = None) -> int:
+def insert_execution(job_name: str,
+                     pid: int,
+                     id_secuence_execution: int | None = None
+                     ) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
-        "INSERT INTO job_execution (job_name,pid,init_date, id_secuence_execution) VALUES (?,?,?,?)",
+        """
+        INSERT INTO
+            job_execution(job_name,pid,init_date, id_secuence_execution)
+        VALUES
+            (?,?,?,?)
+        """,
         (job_name, pid, datetime.now(timezone.utc), id_secuence_execution)
     )
     rowid = cursor.lastrowid or -1
@@ -16,7 +24,10 @@ def insert_execution(job_name: str, pid: int, id_secuence_execution: int | None 
     return rowid
 
 
-def update_execution_result(rowid: int, stdout: str, stderr: str, return_code: int):
+def update_execution_result(rowid: int,
+                            stdout: str,
+                            stderr: str,
+                            return_code: int):
     end_ts = datetime.now(timezone.utc)
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
@@ -124,7 +135,15 @@ def get_execution(job_name, rowid):
     cursor = connection.cursor()
 
     cursor.execute(
-        'SELECT stdout FROM job_execution WHERE job_name = ? AND rowid = ?', (job_name, rowid))
+        '''
+        SELECT
+            stdout
+        FROM
+            job_execution
+        WHERE
+            job_name = ?
+            AND rowid = ?
+        ''', (job_name, rowid))
 
     result = cursor.fetchone()
 
