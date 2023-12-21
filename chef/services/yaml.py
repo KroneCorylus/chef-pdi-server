@@ -1,9 +1,9 @@
-from ..config import BASE_DIR
+from ..config import PDI_HOME
 import yaml as __yaml
 
 
 def load_yaml(path: str) -> dict:
-    with open(BASE_DIR + path, 'r') as stream:
+    with open(PDI_HOME + path, 'r') as stream:
         return __yaml.safe_load(stream)
 
 

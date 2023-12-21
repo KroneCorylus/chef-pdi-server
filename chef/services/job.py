@@ -1,5 +1,5 @@
 from .. import services, providers
-from ..config import BASE_DIR
+from ..config import PDI_HOME
 import os
 import xml.etree.ElementTree as ET
 
@@ -32,7 +32,7 @@ def redact_hidden_params(job):
 
 
 def job_available_parameters(job_path: str) -> list[dict]:
-    job_path = os.path.join(BASE_DIR + "/jobs", job_path)
+    job_path = os.path.join(PDI_HOME + "/jobs", job_path)
     tree = ET.parse(job_path)
     params = tree.findall("./parameters/parameter")
     result: list[dict] = []

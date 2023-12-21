@@ -1,10 +1,10 @@
-from ..config import BASE_DIR
+from ..config import PDI_HOME
 import subprocess
 import threading
 from .. import providers
 
-KITCHEN = BASE_DIR + "/data-integration/kitchen.sh"
-PAN = BASE_DIR + "/data-integration/pan.sh"
+KITCHEN = PDI_HOME + "/data-integration/kitchen.sh"
+PAN = PDI_HOME + "/data-integration/pan.sh"
 
 
 def get_command(job: dict, parameters: dict) -> list[str]:
@@ -28,7 +28,7 @@ def execute(job_name: str,
 def execute_command(job_name: str, command: list[str], id_secuence_execution: int | None = None) -> dict:
     print(' '.join(command))
     process: subprocess.Popen = subprocess.Popen(command,
-                                                 cwd=BASE_DIR + "/jobs",
+                                                 cwd=PDI_HOME + "/jobs",
                                                  stdout=subprocess.PIPE,
                                                  stderr=subprocess.PIPE,
                                                  text=True,
