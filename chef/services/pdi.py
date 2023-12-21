@@ -9,7 +9,7 @@ PAN = BASE_DIR + "/data-integration/pan.sh"
 
 def get_command(job: dict, parameters: dict) -> list[str]:
     jobPath: str = job["path"]
-    logLevel: str = job["level"] if job["level"] is not None else 'Basic'
+    logLevel: str = job.get("level", "Basic")
     command: list[str] = [KITCHEN, "-file:" + jobPath, "-level:" + logLevel]
     if parameters is not None:
         command = command + getParameterString(parameters)
