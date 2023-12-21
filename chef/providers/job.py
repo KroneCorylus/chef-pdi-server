@@ -2,7 +2,7 @@ import sqlite3
 from datetime import datetime, timezone
 
 
-def insert_execution(job_name: str, pid: int, id_secuence_execution: int) -> int:
+def insert_execution(job_name: str, pid: int, id_secuence_execution: int | None = None) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
@@ -88,16 +88,16 @@ def get_executions_by_secuence_execution(id_secuence_execution: int) -> list[dic
 
     cursor.execute(
         '''
-        SELECT 
-            rowid, 
-            pid, 
-            return_code, 
-            init_date, 
-            end_date, 
-            id_secuence_execution 
-        FROM 
-            job_execution 
-        WHERE 
+        SELECT
+            rowid,
+            pid,
+            return_code,
+            init_date,
+            end_date,
+            id_secuence_execution
+        FROM
+            job_execution
+        WHERE
             id_secuence_execution = ?
         ''',
         (id_secuence_execution,)

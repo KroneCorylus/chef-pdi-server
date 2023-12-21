@@ -31,7 +31,7 @@ def redact_hidden_params(job):
     return job
 
 
-def job_available_parameters(job_path: str) -> dict:
+def job_available_parameters(job_path: str) -> list[dict]:
     job_path = os.path.join(BASE_DIR + "/jobs", job_path)
     tree = ET.parse(job_path)
     params = tree.findall("./parameters/parameter")
@@ -57,7 +57,7 @@ def get_execution(name, rowid):
     return providers.job.get_execution(name, rowid)
 
 
-def execute(name: str, override_parameters: dict, id_secuence_execution: int = None):
+def execute(name: str, override_parameters: dict, id_secuence_execution: int | None = None):
     job = services.yaml.get_job(name)
     jobParameters = job["default_parameters"]
     if override_parameters is not None:

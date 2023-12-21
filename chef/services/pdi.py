@@ -20,12 +20,12 @@ def get_command(job: dict, parameters: dict) -> list[str]:
 def execute(job_name: str,
             job: dict,
             parameters: dict,
-            id_secuence_execution: int = None) -> dict:
+            id_secuence_execution: int | None = None) -> dict:
     command = get_command(job, parameters)
     return execute_command(job_name, command, id_secuence_execution)
 
 
-def execute_command(job_name: str, command: list[str], id_secuence_execution: int = None) -> dict:
+def execute_command(job_name: str, command: list[str], id_secuence_execution: int | None = None) -> dict:
     print(' '.join(command))
     process: subprocess.Popen = subprocess.Popen(command,
                                                  cwd=BASE_DIR + "/jobs",
