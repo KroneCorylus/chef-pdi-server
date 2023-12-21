@@ -8,7 +8,7 @@ jobs:
       filepath: '/home/krone/Development/chef-pdi-server/files'
       #filepath: '/home/pdi/files/sample_job_output'
     hidden_parameters: # This is a list of parameter that you dont want to show when describing a JOB (useful for passwords, tokens, etc)
-      - 'param3'
+      - 'param2'
   sample_job2:
     path: sample_job_2.kjb
     default_parameters:
