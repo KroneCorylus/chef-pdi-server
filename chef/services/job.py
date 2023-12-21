@@ -7,12 +7,27 @@ import xml.etree.ElementTree as ET
 def define_job(name: str) -> dict:
     job: dict = services.yaml.get_job(name)
 
-    # replace key for better understanding of the result
-    job["default_parameter_overrides"] = job.pop(
+    job["default_parameter_overwrites"] = job.pop(
         "default_parameters", {})
 
     jobparams = job_available_parameters(job["path"])
     job["available_parameters"] = jobparams
+
+    job = redact_hidden_params(job)
+
+    return job
+
+
+def redact_hidden_params(job):
+    params_to_be_redacted: list[str] = job.get("hidden_parameters", [])
+
+    for key_to_redact in params_to_be_redacted:
+        if job.get("default_parameter_overwrites") is not None and job.get("default_parameter_overwrites").get(key_to_redact) is not None:
+            job.get("default_parameter_overwrites")[
+                key_to_redact] = "***REDACTED***"
+        for kjb_parameter in job.get("available_parameters", []):
+            if kjb_parameter.get("name") == key_to_redact:
+                kjb_parameter["default"] = "***REDACTED***"
     return job
 
 
