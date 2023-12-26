@@ -8,7 +8,15 @@ def load_yaml(path: str) -> dict:
 
 
 def get_jobs() -> dict:
-    return load_yaml("/jobs/jobs.yaml")["jobs"]
+    try:
+        job_conf = load_yaml("/jobs/jobs.yaml")
+    except Exception as err:
+        raise Exception("Configuration file for jobs not found.") from err
+    result = job_conf.get("jobs")
+    if result is None:
+        raise Exception(
+            "Missing jobs property on configuration file jobs.yaml.")
+    return result
 
 
 def get_job(name: str) -> dict:

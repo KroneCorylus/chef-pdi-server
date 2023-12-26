@@ -1,4 +1,8 @@
 import json
+
+from ..auth_middleware import token_required
+
+from ..helpers.flask_error_handler import flask_error_handler
 from .. import services
 from flask import Blueprint, request
 
@@ -6,9 +10,13 @@ jobs_blueprint = Blueprint('jobs', __name__)
 
 
 @jobs_blueprint.route("/")
+@token_required('admin')
 def get_jobs():
-    jobs = list(services.yaml.get_jobs())
-    return json.dumps(jobs)
+    try:
+        jobs = list(services.yaml.get_jobs())
+        return json.dumps(jobs)
+    except Exception as err:
+        return flask_error_handler(500, str(err))
 
 
 @jobs_blueprint.route("/<path:job>")
