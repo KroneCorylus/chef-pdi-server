@@ -10,5 +10,5 @@ app.register_blueprint(secuences_blueprint, url_prefix="/secuences")
 
 
 @app.route("/")
-def hello():
-    return 'hello'
+def itson():
+    return 'Good news, Chef is working!'
