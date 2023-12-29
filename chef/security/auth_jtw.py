@@ -11,8 +11,7 @@ def token_required(role: str | None = None):
     def decorator(f):
         @wraps(f)
         def decorated(*args, **kwargs):
-
-            if SECRET_KEY is None:
+            if SECRET_KEY is None or SECRET_KEY == '':
                 return f(*args, **kwargs)
 
             token = request.headers.get('Authorization')
