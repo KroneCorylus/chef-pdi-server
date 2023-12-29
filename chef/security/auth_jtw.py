@@ -29,7 +29,7 @@ def token_required(role: str | None = None):
                 print(err)
                 return make_response('Invalid credentials', 401)
 
-            if role is not None:
+            if role is not None and role != '':
                 if data.get('role') is None:
                     return make_response('Invalid role', 403)
                 if role != data['role']:
