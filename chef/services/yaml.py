@@ -1,4 +1,4 @@
-from ..config import PDI_HOME
+from ..config import PDI_HOME, JOBS_FILE, SECUENCES_FILE
 import yaml as __yaml
 
 
@@ -9,7 +9,7 @@ def load_yaml(path: str) -> dict:
 
 def get_jobs() -> dict:
     try:
-        job_conf = load_yaml("/jobs/jobs.yaml")
+        job_conf = load_yaml("/jobs/" + JOBS_FILE)
     except Exception as err:
         raise Exception("Configuration file for jobs not found.") from err
     result = job_conf.get("jobs")
@@ -24,7 +24,7 @@ def get_job(name: str) -> dict:
 
 
 def get_secuences() -> dict:
-    return load_yaml("/jobs/secuences.yaml")["secuences"]
+    return load_yaml("/jobs/" + SECUENCES_FILE)["secuences"]
 
 
 def get_secuence(name: str) -> dict:
