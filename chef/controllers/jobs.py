@@ -34,7 +34,7 @@ def get_executions(job_name):
 @jobs_blueprint.route("/<path:job_name>/executions/<path:id>", methods=['GET'])
 @token_required()
 def get_execution_log(job_name, id):
-    return services.job.get_execution(job_name, id)
+    return services.job.get_execution(job_name, id) or ''
 
 
 @jobs_blueprint.route("/<path:job_name>/executions", methods=['POST'])

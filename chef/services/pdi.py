@@ -3,6 +3,7 @@ import subprocess
 import threading
 from .. import providers
 
+import sys
 KITCHEN = PDI_HOME + "/data-integration/kitchen.sh"
 PAN = PDI_HOME + "/data-integration/pan.sh"
 
@@ -31,9 +32,7 @@ def execute_command(job_name: str, command: list[str], id_secuence_execution: in
                                                  cwd=PDI_HOME + "/jobs",
                                                  stdout=subprocess.PIPE,
                                                  stderr=subprocess.PIPE,
-                                                 text=True,
-                                                 bufsize=0,
-                                                 universal_newlines=True)
+                                                 )
     rowid: int = providers.job.insert_execution(
         job_name, process.pid, id_secuence_execution)
 
@@ -50,17 +49,9 @@ def execute_command(job_name: str, command: list[str], id_secuence_execution: in
 
 
 def capture_output(process: subprocess.Popen, rowid: int):
-    # Capture real-time stdout
-    real_time_output = []
-    if process.stdout is not None:
-        for line in process.stdout:
-            print(line)
-            providers.job.update_log(rowid, line)
-            real_time_output.append(line)
-    # Wait for the process to complete and capture completed stdout and stderr
-    stdout, stderr = process.communicate()
-    stdout = ''.join(real_time_output) + stdout
-    # Check the return code
+    stdout_bytes, stderr_bytes = process.communicate()
+    stdout = stdout_bytes.decode('utf-8')
+    stderr = stderr_bytes.decode('utf-8')
     return_code = process.returncode
     print(f"Return Code: {return_code}")
     # Check the return code
