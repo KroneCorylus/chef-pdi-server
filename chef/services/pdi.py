@@ -50,8 +50,6 @@ def execute_command(job_name: str, command: list[str], id_secuence_execution: in
 
 
 def capture_output(process: subprocess.Popen, rowid: int):
-    print("CAPTURING OUTPUT: " + str(rowid))
-
     # Capture real-time stdout
     real_time_output = []
     if process.stdout is not None:
@@ -62,16 +60,6 @@ def capture_output(process: subprocess.Popen, rowid: int):
     # Wait for the process to complete and capture completed stdout and stderr
     stdout, stderr = process.communicate()
     stdout = ''.join(real_time_output) + stdout
-
-    print("FINISH: " + str(rowid))
-    # Check if completed stdout is not empty
-    if stdout:
-        print("Completed STDOUT:")
-        print(stdout)
-    # Check if stderr is not empty
-    if stderr:
-        print("STDERR:")
-        print(stderr)
     # Check the return code
     return_code = process.returncode
     print(f"Return Code: {return_code}")
