@@ -1,4 +1,5 @@
-from .. import services, providers
+import services
+import providers
 import json
 import threading
 

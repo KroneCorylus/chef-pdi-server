@@ -1,7 +1,7 @@
-from ..config import PDI_HOME
+from config import PDI_HOME
 import subprocess
 import threading
-from .. import providers
+import providers
 
 import sys
 KITCHEN = PDI_HOME + "/data-integration/kitchen.sh"

@@ -1,11 +1,11 @@
 import json
 
-from ..security.auth_jtw import token_required
+from security.auth_jtw import token_required
 
-from ..helpers.flask_error_handler import flask_error_handler
-from .. import services
+from helpers.flask_error_handler import flask_error_handler
+import services
 from flask import Blueprint, request
-from ..config import ROLE
+from config import ROLE
 
 jobs_blueprint = Blueprint('jobs', __name__)
 

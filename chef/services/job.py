@@ -1,5 +1,6 @@
-from .. import services, providers
-from ..config import PDI_HOME
+import services
+import providers
+from config import PDI_HOME
 import os
 import xml.etree.ElementTree as ET
 

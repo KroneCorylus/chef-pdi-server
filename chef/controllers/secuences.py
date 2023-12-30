@@ -1,8 +1,8 @@
-from ..security.auth_jtw import token_required
+from security.auth_jtw import token_required
 import json
 from flask import Blueprint
-from .. import services
-from ..config import ROLE
+import services
+from config import ROLE
 secuences_blueprint = Blueprint('secuences', __name__)
 
 
