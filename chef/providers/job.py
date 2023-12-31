@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime, timezone
 
-from ..config import LOG_RETENTION
+from config import LOG_RETENTION
 
 
 def insert_execution(job_name: str,

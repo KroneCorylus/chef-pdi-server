@@ -1,4 +1,4 @@
-from ..config import PDI_HOME, JOBS_FILE, SECUENCES_FILE
+from config import PDI_HOME, JOBS_FILE, SECUENCES_FILE
 import yaml as __yaml
 
 

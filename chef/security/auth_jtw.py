@@ -2,7 +2,7 @@ from functools import wraps
 import jwt
 from flask import make_response, request
 from flask import current_app
-from ..config import SECRET_KEY
+from config import SECRET_KEY
 import re
 
 

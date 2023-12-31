@@ -33,4 +33,5 @@ WORKDIR /srv/chef
 RUN sqlite3 chef.db < create_tables.sql 
 
 EXPOSE 1882
-CMD flask run --host 0.0.0.0 --port 1882
+CMD gunicorn --config gunicorn_conf.py app:app
+#CMD flask run --host 0.0.0.0 --port 1882
