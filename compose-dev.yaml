@@ -1,0 +1,17 @@
+version: "3.8"
+ 
+services:
+  chef:
+    build: .
+    container_name: chef
+    # restart: always
+    #   - secret.dev.env
+    ports:
+      - 1882:1882
+    environment:
+        BASE_DIR: /home/pdi
+    volumes:
+      - ./jobs:/home/pdi/jobs
+      - ./files:/home/pdi/files
+      - ./chef:/srv/chef
+    command: 'python3 /srv/chef/app.py'
