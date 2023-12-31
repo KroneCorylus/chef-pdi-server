@@ -4,11 +4,6 @@
 Chef is simple web server that provides a HTTP API for running Pentaho Data Integration (a.k.a Kettle) Jobs.
 
 ------------
-<p align="center">***NOT READY FOR PRODUCTION*** </p>
-
-
-------------
-
 
 <h3>Features</h3> 
 
@@ -18,10 +13,10 @@ Chef is simple web server that provides a HTTP API for running Pentaho Data Inte
 - Pre-configure and run secuences of jobs.
 - Access logs from finish executions.
 - API end point to get available parameters of a job.
+- Authorization with JWT.
 
 <h3>Planed Features</h3>
 
-- Authorization with JWT.
 - Abort Jobs (by killing pdi process).
 
 
@@ -61,6 +56,9 @@ jobs:
       param1: 'test'
       param2: 'test'
       param3: 'test'
+    hidden_parameters:
+      - 'param1'
+      - 'param2'
   another_job_name:
     level: Minimal 
     path: job2.kjb
@@ -102,6 +100,31 @@ secuences:
 | ------------- | ----------------------------------------------- | ----- |
 | `/secuences`   | List all secuences available     | GET |
 | `/secuences/<unique_secuence_name>`   | Describe secuence     | GET |
-| `/secuences/<unique_secuence_name>/executions`   | ~~List all executions of a secuence~~     | ~~GET~~ |
+| `/secuences/<unique_secuence_name>/executions`   | List all executions of a secuence     | GET |
 | `/secuences/<unique_secuence_name>/executions`   | Execute a secuence     | POST |
+
+
+<h2>Enviroment variable</h2>
+
+| Variable | Description | Default value                     |
+| ------------- | ----------------------------------------------- | ----- |
+| `CHEF_SECRET_TOKEN`   | Token used for JWT token signature validation. |  |
+| `PDI_HOME`   | Home directory for PDI. | /home/pdi |
+| `JOBS_FILE`   | File name with job configurations. | jobs.yaml |
+| `SECUENCES_FILE`   | File name with secuences configurations. | jobs.yaml |
+| `CHEF_ROLE`   | Role requiered in payload of JWT token for api usage |  |
+| `LOG_RETENTION`   | Log retention in days | 30 |
+| `GUNICORN_PROCESSES`   | Number of gunicorn workers | 4 |
+| `GUNICORN_THREADS`   | | 2 |
+| `GUNICORN_BIND`   |  | 0.0.0.0:1882 |
+
+
+<h2>Development</h2>
+
+To develop and expand this proyect you can use the compose file compose-dev.yaml like this:
+```
+docker compose -f compose-dev.yaml up
+```
+This will make a docker volume of source files directory and inicialize flask in Debug mode for hotreloading of your changes. 
+
 
