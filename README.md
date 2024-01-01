@@ -85,7 +85,7 @@ secuences:
 
 <h3>Jobs</h3>
 
-| End point | Method | Description                    |
+| Endpoint | Method | Description                    |
 | ------------- | ----------------------------------------------- | ----- |
 | `/jobs`      | List all jobs available.       | GET |
 | `/jobs/<unique_job_name>`   | Describe job     | GET |
@@ -95,7 +95,7 @@ secuences:
 
 <h3>Secuences</h3>
 
-| End point | Method | Description                    |
+| Endpoint | Method | Description                    |
 | ------------- | ----------------------------------------------- | ----- |
 | `/secuences`   | List all secuences available     | GET |
 | `/secuences/<unique_secuence_name>`   | Describe secuence     | GET |
