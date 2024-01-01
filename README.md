@@ -17,8 +17,7 @@ Chef is simple web server that provides a HTTP API for running Pentaho Data Inte
 
 <h3>Planed Features</h3>
 
-- Abort Jobs (by killing pdi process).
-
+- Abort Jobs
 
 <h2>Installation</h2>
 <h4>Clone repository</h4>
