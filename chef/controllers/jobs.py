@@ -42,5 +42,5 @@ def get_execution_log(job_name, id):
 @token_required(ROLE)
 def execute_job(job_name):
     print(request.get_json(silent=True))
-    argsDict = request.get_json(silent=True)
-    return services.job.execute(job_name, argsDict)
+    job_parameter_overwrites = request.get_json(silent=True) or {}
+    return services.job.execute(job_name, job_parameter_overwrites)
