@@ -23,7 +23,11 @@ def redact_hidden_params(job):
     params_to_be_redacted: list[str] = job.get("hidden_parameters", [])
 
     for key_to_redact in params_to_be_redacted:
-        if job.get("default_parameter_overwrites") is not None and job.get("default_parameter_overwrites").get(key_to_redact) is not None:
+        if (
+            job.get("default_parameter_overwrites") is not None and
+            job.get("default_parameter_overwrites").get(
+                key_to_redact) is not None
+        ):
             job.get("default_parameter_overwrites")[
                 key_to_redact] = "***REDACTED***"
         for kjb_parameter in job.get("available_parameters", []):
@@ -58,9 +62,14 @@ def get_execution(name, rowid):
     return providers.job.get_execution(name, rowid)
 
 
-def execute(name: str, override_parameters: dict, id_secuence_execution: int | None = None):
+def execute(name: str,
+            parameter_overwrites: dict,
+            id_secuence_execution: int | None = None):
     job = services.yaml.get_job(name)
     jobParameters = job["default_parameters"]
-    if override_parameters is not None:
-        jobParameters.update(override_parameters)
-    return services.pdi.execute(name, job, jobParameters, id_secuence_execution)
+    if parameter_overwrites is not None:
+        jobParameters.update(parameter_overwrites)
+    return services.pdi.execute(name,
+                                job,
+                                jobParameters,
+                                id_secuence_execution)
