@@ -9,14 +9,16 @@ secuences_blueprint = Blueprint('secuences', __name__)
 @secuences_blueprint.route("/")
 @token_required(ROLE)
 def get_secuences():
-    secuences = list(services.yaml.get_secuences())
+    secuences = list(services.yaml.get_sequences().sequences)
     return json.dumps(secuences)
 
 
-@secuences_blueprint.route("/<path:secuence_name>")
+@secuences_blueprint.route("/<path:sequence_name>")
 @token_required(ROLE)
-def define_secuence(secuence_name):
-    return json.dumps(services.yaml.get_secuence(secuence_name))
+def define_secuence(sequence_name):
+    return json.dumps(
+        services.yaml.get_seq(sequence_name).toDict()
+    )
 
 
 @secuences_blueprint.route("/<path:secuence_name>/executions", methods=['POST'])

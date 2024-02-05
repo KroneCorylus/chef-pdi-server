@@ -1,3 +1,4 @@
+from clases.job import Job
 import services
 import providers
 from config import PDI_HOME
@@ -5,17 +6,10 @@ import os
 import xml.etree.ElementTree as ET
 
 
-def define_job(name: str) -> dict:
-    job: dict = services.yaml.get_job(name)
-
-    job["default_parameter_overwrites"] = job.pop(
-        "default_parameters", {})
-
-    jobparams = job_available_parameters(job["path"])
-    job["available_parameters"] = jobparams
-
-    job = redact_hidden_params(job)
-
+def define_job(name: str) -> Job:
+    job: Job = services.yaml.get_job(name)
+    job.available_parameters = job_available_parameters(job.path)
+    # job = redact_hidden_params(job)
     return job
 
 
@@ -36,17 +30,16 @@ def redact_hidden_params(job):
     return job
 
 
-def job_available_parameters(job_path: str) -> list[dict]:
+def job_available_parameters(job_path: str) -> list[dict[str, str]]:
     job_path = os.path.join(PDI_HOME + "/jobs", job_path)
-    tree = ET.parse(job_path)
-    params = tree.findall("./parameters/parameter")
-    result: list[dict] = []
-    for param in params:
-        result.append({
-            'name': param.findtext("name"),
-            'default': param.findtext("default_value"),
-            'description': param.findtext("description")
-        })
+    xml_params = ET.parse(job_path).findall("./parameters/parameter")
+    result: list[dict[str, str]] = []
+    for xml_param in xml_params:
+        param: dict[str, str] = {}
+        param['name'] = xml_param.findtext("name", "")
+        param['default'] = xml_param.findtext("default", "")
+        param['description'] = xml_param.findtext("description", "")
+        result.append(param)
     return result
 
 
@@ -66,7 +59,7 @@ def execute(name: str,
             parameter_overwrites: dict,
             id_secuence_execution: int | None = None):
     job = services.yaml.get_job(name)
-    jobParameters = job["default_parameters"]
+    jobParameters = job.parameter_overwrites
     if parameter_overwrites is not None:
         jobParameters.update(parameter_overwrites)
     return services.pdi.execute(name,

@@ -10,8 +10,10 @@ services:
       - 1882:1882
     environment:
         BASE_DIR: /home/pdi
+        FLASK_DEBUG: 1
     volumes:
       - ./jobs:/home/pdi/jobs
       - ./files:/home/pdi/files
       - ./chef:/srv/chef
-    command: 'python3 /srv/chef/app.py'
+    command: 'python3 -m flask run  --host 0.0.0.0 --port 1882 --reload'
+    # command: 'python3 /srv/chef/app.py'

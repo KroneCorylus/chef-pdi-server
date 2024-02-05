@@ -1,3 +1,4 @@
+from clases.job import Job
 from config import PDI_HOME
 import subprocess
 import threading
@@ -8,9 +9,9 @@ KITCHEN = PDI_HOME + "/data-integration/kitchen.sh"
 PAN = PDI_HOME + "/data-integration/pan.sh"
 
 
-def get_command(job: dict, parameters: dict) -> list[str]:
-    jobPath: str = job["path"]
-    logLevel: str = job.get("level", "Basic")
+def get_command(job: Job, parameters: dict) -> list[str]:
+    jobPath: str = job.path
+    logLevel: str = job.level
     command: list[str] = [KITCHEN, "-file:" + jobPath, "-level:" + logLevel]
     if parameters is not None:
         command = command + getParameterString(parameters)
@@ -19,7 +20,7 @@ def get_command(job: dict, parameters: dict) -> list[str]:
 
 
 def execute(job_name: str,
-            job: dict,
+            job: Job,
             parameters: dict,
             id_secuence_execution: int | None = None) -> dict:
     command = get_command(job, parameters)

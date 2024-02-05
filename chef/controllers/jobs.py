@@ -14,16 +14,15 @@ jobs_blueprint = Blueprint('jobs', __name__)
 @token_required(ROLE)
 def get_jobs():
     try:
-        jobs = list(services.yaml.get_jobs())
-        return json.dumps(jobs)
+        return services.yaml.get_jobs().toDict()
     except Exception as err:
         return flask_error_handler(500, str(err))
 
 
-@jobs_blueprint.route("/<path:job>")
+@jobs_blueprint.route("/<path:job_name>")
 @token_required(ROLE)
-def define_job(job):
-    return services.job.define_job(job)
+def define_job(job_name):
+    return services.job.define_job(job_name).toJson()
 
 
 @jobs_blueprint.route("/<path:job_name>/executions", methods=['GET'])
