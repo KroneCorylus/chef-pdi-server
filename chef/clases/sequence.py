@@ -38,7 +38,7 @@ class SequenceManager:
         if seq is not None:
             return seq
         else:
-            raise Exception("secuencia no encontrada")
+            raise Exception("Sequence not found")
 
     def toDict(self) -> dict:
         result_dict = {}

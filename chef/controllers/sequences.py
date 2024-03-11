@@ -3,37 +3,37 @@ import json
 from flask import Blueprint
 import services
 from config import ROLE
-secuences_blueprint = Blueprint('secuences', __name__)
+sequences_blueprint = Blueprint('sequences', __name__)
 
 
-@secuences_blueprint.route("/")
+@sequences_blueprint.route("/")
 @token_required(ROLE)
-def get_secuences():
-    secuences = list(services.yaml.get_sequences().sequences)
-    return json.dumps(secuences)
+def get_sequences():
+    sequences = list(services.yaml.get_sequences().sequences)
+    return json.dumps(sequences)
 
 
-@secuences_blueprint.route("/<path:sequence_name>")
+@sequences_blueprint.route("/<path:sequence_name>")
 @token_required(ROLE)
-def define_secuence(sequence_name):
+def define_sequence(sequence_name):
     return json.dumps(
         services.yaml.get_seq(sequence_name).toDict()
     )
 
 
-@secuences_blueprint.route("/<path:secuence_name>/executions", methods=['POST'])
+@sequences_blueprint.route("/<path:sequence_name>/executions", methods=['POST'])
 @token_required(ROLE)
-def execute_secuence(secuence_name):
-    return services.sequence.execute(secuence_name)
+def execute_sequence(sequence_name):
+    return services.sequence.execute(sequence_name)
 
 
-@secuences_blueprint.route("/<path:secuence_name>/executions")
+@sequences_blueprint.route("/<path:sequence_name>/executions")
 @token_required(ROLE)
-def get_executions(secuence_name):
-    return json.dumps(services.sequence.get_executions(secuence_name))
+def get_executions(sequence_name):
+    return json.dumps(services.sequence.get_executions(sequence_name))
 
 
-@secuences_blueprint.route("/<path:secuence_name>/executions/<path:id_execution>")
+@sequences_blueprint.route("/<path:sequence_name>/executions/<path:id_execution>")
 @token_required(ROLE)
-def get_job_executions(secuence_name: str, id_execution: int):
-    return json.dumps(services.job.get_executions_by_secuence_id(id_execution))
+def get_job_executions(sequence_name: str, id_execution: int):
+    return json.dumps(services.job.get_executions_by_sequence_id(id_execution))

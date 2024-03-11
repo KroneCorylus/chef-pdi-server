@@ -10,7 +10,7 @@ Chef is simple web server that provides a HTTP API for running Pentaho Data Inte
 - Simple installation via Docker Image.
 - Run jobs on demand via HTTP request.
 - Set default parameters or pass them as parameters on the request (overwrite default ones).
-- Pre-configure and run secuences of jobs.
+- Pre-configure and run sequences of jobs.
 - Access logs from finish executions.
 - API end point to get available parameters of a job.
 - Authorization with JWT.
@@ -65,12 +65,12 @@ jobs:
       param1: 'test'
       param2: 'test'
 ```
-<h3>Secuences</h3>
-Secuences are a list of jobs you want to run consecutively. You can declare what jobs are part of a secuence declaring them in secuences.yaml using the job name declared on jobs.yaml
+<h3>sequences</h3>
+sequences are a list of jobs you want to run consecutively. You can declare what jobs are part of a sequence declaring them in sequences.yaml using the job name declared on jobs.yaml
 
 ```yaml
-secuences:
-  unique_secuence_name:
+sequences:
+  unique_sequence_name:
     - job: 'unique_job_name'
       parameter_overwrites:
         param1: 'test1'
@@ -93,14 +93,14 @@ secuences:
 | `/jobs/<unique_job_name>/executions`   | Execute a job     | POST |
 | `/jobs/<unique_job_name>/executions/<id>`   | Get log from execution     | GET |
 
-<h3>Secuences</h3>
+<h3>sequences</h3>
 
 | Endpoint | Description | Method                    |
 | ------------- | ----------------------------------------------- | ----- |
-| `/secuences`   | List all secuences available     | GET |
-| `/secuences/<unique_secuence_name>`   | Describe secuence     | GET |
-| `/secuences/<unique_secuence_name>/executions`   | List all executions of a secuence     | GET |
-| `/secuences/<unique_secuence_name>/executions`   | Execute a secuence     | POST |
+| `/sequences`   | List all sequences available     | GET |
+| `/sequences/<unique_sequence_name>`   | Describe sequence     | GET |
+| `/sequences/<unique_sequence_name>/executions`   | List all executions of a sequence     | GET |
+| `/sequences/<unique_sequence_name>/executions`   | Execute a sequence     | POST |
 
 
 <h2>Enviroment variable</h2>
@@ -110,7 +110,7 @@ secuences:
 | `CHEF_SECRET_TOKEN`   | Token used for JWT token signature validation. |  |
 | `PDI_HOME`   | Home directory for PDI. | /home/pdi |
 | `JOBS_FILE`   | File name with job configurations. | jobs.yaml |
-| `SECUENCES_FILE`   | File name with secuences configurations. | jobs.yaml |
+| `SEQUENCES_FILE`   | File name with sequences configurations. | jobs.yaml |
 | `CHEF_ROLE`   | Role requiered in payload of JWT token for api usage |  |
 | `LOG_RETENTION`   | Log retention in days | 30 |
 | `GUNICORN_PROCESSES`   | Number of gunicorn workers | 4 |

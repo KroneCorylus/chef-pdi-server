@@ -6,18 +6,18 @@ from config import LOG_RETENTION
 
 def insert_execution(job_name: str,
                      pid: int,
-                     id_secuence_execution: int | None = None
+                     id_sequence_execution: int | None = None
                      ) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
         """
         INSERT INTO
-            job_execution(job_name,pid,init_date, id_secuence_execution)
+            job_execution(job_name,pid,init_date, id_sequence_execution)
         VALUES
             (?,?,?,?)
         """,
-        (job_name, pid, datetime.now(timezone.utc), id_secuence_execution)
+        (job_name, pid, datetime.now(timezone.utc), id_sequence_execution)
     )
     rowid = cursor.lastrowid or -1
     connection.commit()
@@ -73,7 +73,7 @@ def get_executions(job_name):
     cursor = connection.cursor()
 
     cursor.execute(
-        'SELECT rowid, pid, return_code, init_date, end_date, id_secuence_execution FROM job_execution WHERE job_name = ?', (job_name,))
+        'SELECT rowid, pid, return_code, init_date, end_date, id_sequence_execution FROM job_execution WHERE job_name = ?', (job_name,))
 
     rows = cursor.fetchall()
 
@@ -88,13 +88,13 @@ def get_executions(job_name):
             'return_code': row[2],
             'init_date': row[3],
             'end_date': row[4],
-            'id_secuence_execution': row[5]
+            'id_sequence_execution': row[5]
         })
 
     return result_dict
 
 
-def get_executions_by_secuence_execution(id_secuence_execution: int) -> list[dict]:
+def get_executions_by_sequence_execution(id_sequence_execution: int) -> list[dict]:
     connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
 
     cursor = connection.cursor()
@@ -107,13 +107,13 @@ def get_executions_by_secuence_execution(id_secuence_execution: int) -> list[dic
             return_code,
             init_date,
             end_date,
-            id_secuence_execution
+            id_sequence_execution
         FROM
             job_execution
         WHERE
-            id_secuence_execution = ?
+            id_sequence_execution = ?
         ''',
-        (id_secuence_execution,)
+        (id_sequence_execution,)
     )
     rows = cursor.fetchall()
     cursor.close()
@@ -126,7 +126,7 @@ def get_executions_by_secuence_execution(id_secuence_execution: int) -> list[dic
             'return_code': row[2],
             'init_date': row[3],
             'end_date': row[4],
-            'id_secuence_execution': row[5]
+            'id_sequence_execution': row[5]
         })
     return result_dict
 

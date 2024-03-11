@@ -5,16 +5,16 @@ from datetime import datetime, timezone
 from config import LOG_RETENTION
 
 
-def insert(secuence_name: str) -> int:
+def insert(sequence_name: str) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
         """
         INSERT INTO
-            secuence_execution (secuence_name,init_date)
+            sequence_execution (sequence_name,init_date)
         VALUES (?,?)
         """,
-        (secuence_name, datetime.now(timezone.utc))
+        (sequence_name, datetime.now(timezone.utc))
     )
     rowid = cursor.lastrowid or -1
     connection.commit()
@@ -27,7 +27,7 @@ def update_end_date(rowid: int) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
-        "UPDATE secuence_execution SET end_date = ? WHERE rowid = ?",
+        "UPDATE sequence_execution SET end_date = ? WHERE rowid = ?",
         (datetime.now(timezone.utc), rowid)
     )
     connection.commit()
@@ -36,22 +36,22 @@ def update_end_date(rowid: int) -> int:
     return rowid
 
 
-def get_executions(secuence_name: str) -> list[dict]:
+def get_executions(sequence_name: str) -> list[dict]:
     connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
     cursor = connection.cursor()
     cursor.execute(
         '''
         SELECT
             rowid,
-            secuence_name,
+            sequence_name,
             init_date,
             end_date
         FROM
-            secuence_execution
+            sequence_execution
         WHERE
-            secuence_name = ?
+            sequence_name = ?
         ''',
-        (secuence_name,))
+        (sequence_name,))
     rows = cursor.fetchall()
     cursor.close()
     connection.close()
@@ -59,7 +59,7 @@ def get_executions(secuence_name: str) -> list[dict]:
     for row in rows:
         result_dict.append({
             'id': row[0],
-            'secuence_name': row[1],
+            'sequence_name': row[1],
             'init_date': row[2],
             'end_date': row[3]
         })
@@ -73,7 +73,7 @@ def remove_old():
     cursor.execute(
         """
         DELETE FROM
-            secuence_execution
+            sequence_execution
         WHERE
             init_date = ?
         """,

@@ -22,12 +22,12 @@ def get_command(job: Job, parameters: dict) -> list[str]:
 def execute(job_name: str,
             job: Job,
             parameters: dict,
-            id_secuence_execution: int | None = None) -> dict:
+            id_sequence_execution: int | None = None) -> dict:
     command = get_command(job, parameters)
-    return execute_command(job_name, command, id_secuence_execution)
+    return execute_command(job_name, command, id_sequence_execution)
 
 
-def execute_command(job_name: str, command: list[str], id_secuence_execution: int | None = None) -> dict:
+def execute_command(job_name: str, command: list[str], id_sequence_execution: int | None = None) -> dict:
     print(' '.join(command))
     process: subprocess.Popen = subprocess.Popen(command,
                                                  cwd=PDI_HOME + "/jobs",
@@ -35,9 +35,9 @@ def execute_command(job_name: str, command: list[str], id_secuence_execution: in
                                                  stderr=subprocess.PIPE,
                                                  )
     rowid: int = providers.job.insert_execution(
-        job_name, process.pid, id_secuence_execution)
+        job_name, process.pid, id_sequence_execution)
 
-    if id_secuence_execution is None:
+    if id_sequence_execution is None:
         thread = threading.Thread(target=capture_output, args=(process, rowid))
         thread.start()
         providers.job.remove_old()
