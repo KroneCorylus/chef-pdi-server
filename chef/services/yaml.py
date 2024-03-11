@@ -42,7 +42,10 @@ def get_sequences() -> SequenceManager:
 
 
 def get_seq(name: str) -> Sequence:
-    return get_sequences().get(name)
+    try:
+        return get_sequences().get(name)
+    except Exception as e:
+        raise e
 
 
 def get_jobs() -> JobManager:

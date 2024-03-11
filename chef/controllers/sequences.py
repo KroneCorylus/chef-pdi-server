@@ -16,15 +16,21 @@ def get_sequences():
 @sequences_blueprint.route("/<path:sequence_name>")
 @token_required(ROLE)
 def define_sequence(sequence_name):
-    return json.dumps(
-        services.yaml.get_seq(sequence_name).toDict()
-    )
+    try:
+        return json.dumps(
+            services.yaml.get_seq(sequence_name).toDict()
+        )
+    except Exception as e:
+        return str(e), 404
 
 
 @sequences_blueprint.route("/<path:sequence_name>/executions", methods=['POST'])
 @token_required(ROLE)
 def execute_sequence(sequence_name):
-    return services.sequence.execute(sequence_name)
+    try:
+        return services.sequence.execute(sequence_name)
+    except Exception as e:
+        return str(e), 404
 
 
 @sequences_blueprint.route("/<path:sequence_name>/executions")
