@@ -1,1 +1,1 @@
-from . import jobs, secuences
+from . import jobs, sequences
