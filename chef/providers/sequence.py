@@ -11,7 +11,7 @@ def insert(sequence_name: str) -> int:
     cursor.execute(
         """
         INSERT INTO
-            secuence_execution (secuence_name,init_date)
+            sequence_execution (sequence_name,init_date)
         VALUES (?,?)
         """,
         (sequence_name, datetime.now(timezone.utc))
@@ -27,7 +27,7 @@ def update_end_date(rowid: int) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
-        "UPDATE secuence_execution SET end_date = ? WHERE rowid = ?",
+        "UPDATE sequence_execution SET end_date = ? WHERE rowid = ?",
         (datetime.now(timezone.utc), rowid)
     )
     connection.commit()
@@ -43,13 +43,13 @@ def get_executions(sequence_name: str) -> list[dict]:
         '''
         SELECT
             rowid,
-            secuence_name,
+            sequence_name,
             init_date,
             end_date
         FROM
-            secuence_execution
+            sequence_execution
         WHERE
-            secuence_name = ?
+            sequence_name = ?
         ''',
         (sequence_name,))
     rows = cursor.fetchall()
@@ -59,7 +59,7 @@ def get_executions(sequence_name: str) -> list[dict]:
     for row in rows:
         result_dict.append({
             'id': row[0],
-            'secuence_name': row[1],
+            'sequence_name': row[1],
             'init_date': row[2],
             'end_date': row[3]
         })
@@ -73,7 +73,7 @@ def remove_old():
     cursor.execute(
         """
         DELETE FROM
-            secuence_execution
+            sequence_execution
         WHERE
             init_date = ?
         """,

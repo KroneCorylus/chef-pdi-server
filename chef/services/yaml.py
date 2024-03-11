@@ -27,7 +27,7 @@ def load_sequences(path: str) -> SequenceManager:
     with open(PDI_HOME + path, 'r') as stream:
         data = __yaml.safe_load(stream)
     sequences: dict[str, Sequence] = {}
-    for sequence_name, sequence_data in data.get('secuences', {}).items():
+    for sequence_name, sequence_data in data.get('sequences', {}).items():
         sequences[sequence_name] = Sequence([])
         for sequence_job in sequence_data or []:
             sequences[sequence_name].append(SequenceJob(

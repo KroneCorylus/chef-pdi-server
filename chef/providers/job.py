@@ -13,7 +13,7 @@ def insert_execution(job_name: str,
     cursor.execute(
         """
         INSERT INTO
-            job_execution(job_name,pid,init_date, id_secuence_execution)
+            job_execution(job_name,pid,init_date, id_sequence_execution)
         VALUES
             (?,?,?,?)
         """,
@@ -73,7 +73,7 @@ def get_executions(job_name):
     cursor = connection.cursor()
 
     cursor.execute(
-        'SELECT rowid, pid, return_code, init_date, end_date, id_secuence_execution FROM job_execution WHERE job_name = ?', (job_name,))
+        'SELECT rowid, pid, return_code, init_date, end_date, id_sequence_execution FROM job_execution WHERE job_name = ?', (job_name,))
 
     rows = cursor.fetchall()
 
@@ -88,7 +88,7 @@ def get_executions(job_name):
             'return_code': row[2],
             'init_date': row[3],
             'end_date': row[4],
-            'id_secuence_execution': row[5]
+            'id_sequence_execution': row[5]
         })
 
     return result_dict
@@ -107,11 +107,11 @@ def get_executions_by_sequence_execution(id_sequence_execution: int) -> list[dic
             return_code,
             init_date,
             end_date,
-            id_secuence_execution
+            id_sequence_execution
         FROM
             job_execution
         WHERE
-            id_secuence_execution = ?
+            id_sequence_execution = ?
         ''',
         (id_sequence_execution,)
     )
@@ -126,7 +126,7 @@ def get_executions_by_sequence_execution(id_sequence_execution: int) -> list[dic
             'return_code': row[2],
             'init_date': row[3],
             'end_date': row[4],
-            'id_secuence_execution': row[5]
+            'id_sequence_execution': row[5]
         })
     return result_dict
 

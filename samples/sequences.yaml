@@ -1,11 +1,11 @@
-secuences:
-  sample_secuence: #Unique name for this secuence
+sequences:
+  sample_sequence: #Unique name for this sequence
     - job: 'sample_job1' # Name of the job declared on jobs.yaml
       parameter_overwrites: # Overwrite value declared both in jobs.yaml and .kjb
-        param1: 'runned from secuence'
+        param1: 'runned from sequence'
     - job: 'sample_job2'
       parameter_overwrites:
-        trigger: 'chef secuence'
+        trigger: 'chef sequence'
     - job: 'sample_job1'
       parameter_overwrites:
-        param1: 'runned again from secuence'
+        param1: 'runned again from sequence'

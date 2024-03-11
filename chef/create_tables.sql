@@ -6,12 +6,12 @@ CREATE TABLE IF NOT EXISTS job_execution (
    return_code INTEGER,
    init_date TEXT,
    end_date TEXT,
-   id_secuence_execution INTEGER,
+   id_sequence_execution INTEGER,
    parameters TEXT
 );
 
-CREATE TABLE IF NOT EXISTS secuence_execution (
-   secuence_name TEXT,
+CREATE TABLE IF NOT EXISTS sequence_execution (
+   sequence_name TEXT,
    init_date TEXT,
    end_date TEXT, 
    parameters TEXT
