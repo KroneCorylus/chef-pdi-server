@@ -110,7 +110,7 @@ sequences:
 | `CHEF_SECRET_TOKEN`   | Token used for JWT token signature validation. |  |
 | `PDI_HOME`   | Home directory for PDI. | /home/pdi |
 | `JOBS_FILE`   | File name with job configurations. | jobs.yaml |
-| `SEQUENCES_FILE`   | File name with sequences configurations. | jobs.yaml |
+| `SEQUENCES_FILE`   | File name with sequences configurations. | sequences.yaml |
 | `CHEF_ROLE`   | Role requiered in payload of JWT token for api usage |  |
 | `LOG_RETENTION`   | Log retention in days | 30 |
 | `GUNICORN_PROCESSES`   | Number of gunicorn workers | 4 |
