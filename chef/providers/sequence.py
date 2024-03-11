@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from config import LOG_RETENTION
 
 
-def insert(secuence_name: str) -> int:
+def insert(sequence_name: str) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
     cursor.execute(
@@ -14,7 +14,7 @@ def insert(secuence_name: str) -> int:
             secuence_execution (secuence_name,init_date)
         VALUES (?,?)
         """,
-        (secuence_name, datetime.now(timezone.utc))
+        (sequence_name, datetime.now(timezone.utc))
     )
     rowid = cursor.lastrowid or -1
     connection.commit()
@@ -36,7 +36,7 @@ def update_end_date(rowid: int) -> int:
     return rowid
 
 
-def get_executions(secuence_name: str) -> list[dict]:
+def get_executions(sequence_name: str) -> list[dict]:
     connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
     cursor = connection.cursor()
     cursor.execute(
@@ -51,7 +51,7 @@ def get_executions(secuence_name: str) -> list[dict]:
         WHERE
             secuence_name = ?
         ''',
-        (secuence_name,))
+        (sequence_name,))
     rows = cursor.fetchall()
     cursor.close()
     connection.close()

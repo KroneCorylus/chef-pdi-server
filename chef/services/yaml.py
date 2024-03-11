@@ -1,5 +1,5 @@
 from clases.sequence import Sequence, SequenceJob, SequenceManager
-from config import PDI_HOME, JOBS_FILE, SECUENCES_FILE
+from config import PDI_HOME, JOBS_FILE, SEQUENCES_FILE
 import yaml as __yaml
 from clases.job import Job, JobManager
 
@@ -27,9 +27,9 @@ def load_sequences(path: str) -> SequenceManager:
     with open(PDI_HOME + path, 'r') as stream:
         data = __yaml.safe_load(stream)
     sequences: dict[str, Sequence] = {}
-    for sequence_name, secuence_data in data.get('secuences', {}).items():
+    for sequence_name, sequence_data in data.get('secuences', {}).items():
         sequences[sequence_name] = Sequence([])
-        for sequence_job in secuence_data or []:
+        for sequence_job in sequence_data or []:
             sequences[sequence_name].append(SequenceJob(
                 sequence_job.get('job', ''),
                 sequence_job.get('parameter_overwrites', {}),
@@ -38,7 +38,7 @@ def load_sequences(path: str) -> SequenceManager:
 
 
 def get_sequences() -> SequenceManager:
-    return load_sequences("/jobs/" + SECUENCES_FILE)
+    return load_sequences("/jobs/" + SEQUENCES_FILE)
 
 
 def get_seq(name: str) -> Sequence:

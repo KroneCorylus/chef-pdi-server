@@ -46,8 +46,8 @@ def get_executions(name) -> list[dict]:
     return providers.job.get_executions(name)
 
 
-def get_executions_by_secuence_id(id_secuence_execution: int) -> list[dict]:
-    return providers.job.get_executions_by_secuence_execution(id_secuence_execution)
+def get_executions_by_sequence_id(id_sequence_execution: int) -> list[dict]:
+    return providers.job.get_executions_by_sequence_execution(id_sequence_execution)
 
 
 def get_execution(name, rowid):
@@ -56,7 +56,7 @@ def get_execution(name, rowid):
 
 def execute(name: str,
             parameter_overwrites: dict,
-            id_secuence_execution: int | None = None):
+            id_sequence_execution: int | None = None):
     job = services.yaml.get_job(name)
     jobParameters = job.parameter_overwrites
     if parameter_overwrites is not None:
@@ -64,4 +64,4 @@ def execute(name: str,
     return services.pdi.execute(name,
                                 job,
                                 jobParameters,
-                                id_secuence_execution)
+                                id_sequence_execution)

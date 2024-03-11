@@ -6,7 +6,7 @@ from config import LOG_RETENTION
 
 def insert_execution(job_name: str,
                      pid: int,
-                     id_secuence_execution: int | None = None
+                     id_sequence_execution: int | None = None
                      ) -> int:
     connection = sqlite3.connect('chef.db')
     cursor = connection.cursor()
@@ -17,7 +17,7 @@ def insert_execution(job_name: str,
         VALUES
             (?,?,?,?)
         """,
-        (job_name, pid, datetime.now(timezone.utc), id_secuence_execution)
+        (job_name, pid, datetime.now(timezone.utc), id_sequence_execution)
     )
     rowid = cursor.lastrowid or -1
     connection.commit()
@@ -94,7 +94,7 @@ def get_executions(job_name):
     return result_dict
 
 
-def get_executions_by_secuence_execution(id_secuence_execution: int) -> list[dict]:
+def get_executions_by_sequence_execution(id_sequence_execution: int) -> list[dict]:
     connection = sqlite3.connect('file:chef.db?mode=ro', uri=True)
 
     cursor = connection.cursor()
@@ -113,7 +113,7 @@ def get_executions_by_secuence_execution(id_secuence_execution: int) -> list[dic
         WHERE
             id_secuence_execution = ?
         ''',
-        (id_secuence_execution,)
+        (id_sequence_execution,)
     )
     rows = cursor.fetchall()
     cursor.close()
