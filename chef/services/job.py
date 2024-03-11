@@ -9,7 +9,6 @@ import xml.etree.ElementTree as ET
 def define_job(name: str) -> Job:
     job: Job = services.yaml.get_job(name)
     job.available_parameters = job_available_parameters(job.path)
-    # job = redact_hidden_params(job)
     return job
 
 

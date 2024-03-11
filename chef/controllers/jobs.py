@@ -22,7 +22,7 @@ def get_jobs():
 @jobs_blueprint.route("/<path:job_name>")
 @token_required(ROLE)
 def define_job(job_name):
-    return services.job.define_job(job_name).toJson()
+    return json.dumps(services.job.define_job(job_name).toDict())
 
 
 @jobs_blueprint.route("/<path:job_name>/executions", methods=['GET'])

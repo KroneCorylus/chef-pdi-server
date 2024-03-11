@@ -24,13 +24,13 @@ def define_secuence(sequence_name):
 @secuences_blueprint.route("/<path:secuence_name>/executions", methods=['POST'])
 @token_required(ROLE)
 def execute_secuence(secuence_name):
-    return services.secuence.execute(secuence_name)
+    return services.sequence.execute(secuence_name)
 
 
 @secuences_blueprint.route("/<path:secuence_name>/executions")
 @token_required(ROLE)
 def get_executions(secuence_name):
-    return json.dumps(services.secuence.get_executions(secuence_name))
+    return json.dumps(services.sequence.get_executions(secuence_name))
 
 
 @secuences_blueprint.route("/<path:secuence_name>/executions/<path:id_execution>")

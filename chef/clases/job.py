@@ -19,7 +19,13 @@ class Job:
         return json.dumps(self, default=lambda o: o.__dict__,
                           sort_keys=True, indent=4)
 
-    def toDict(self):
+    def toDict(self, hide_params: bool = True):
+        if hide_params:
+            for param_name in self.hidden_parameters:
+                self.parameter_overwrites[param_name] = "***REDACTED***"
+                for available_param in self.available_parameters:
+                    if available_param.get("name") == param_name:
+                        available_param["default"] = "***REDACTED***"
         job_dict = {
             'path': self.path,
             'level': self.level,
