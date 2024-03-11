@@ -22,7 +22,10 @@ def get_jobs():
 @jobs_blueprint.route("/<path:job_name>")
 @token_required(ROLE)
 def define_job(job_name):
-    return json.dumps(services.job.define_job(job_name).toDict())
+    try:
+        return json.dumps(services.job.define_job(job_name).toDict())
+    except Exception as e:
+        return str(e), 404
 
 
 @jobs_blueprint.route("/<path:job_name>/executions", methods=['GET'])
